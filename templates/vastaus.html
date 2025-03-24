@@ -40,6 +40,53 @@
             background-color: #66bb6a; /* Muuttuu kirkkaammaksi lopussa */
             color: white;
         }
+        #back-link {
+            display: none;
+            margin-top: 20px;
+            font-size: 18px;
+            text-decoration: none;
+            color: white;
+            background-color: #388e3c;
+            padding: 10px 15px;
+            border-radius: 8px;
+            transition: background 0.3s;
+        }
+        #back-link:hover {
+            background-color: #2e7d32;
+        }
+        /* Onnenpyörän tyylit */
+        .wheel-container {
+            display: none;
+            margin-top: 20px;
+        }
+        .wheel {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background-color: #ffeb3b;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            font-weight: bold;
+            color: #ff9800;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            transition: transform 1s ease-in-out;
+        }
+        .wheel.spinning {
+            transform: rotate(720deg);
+        }
+        #prize {
+            font-size: 24px;
+            margin-top: 10px;
+        }
+        #congrats {
+            font-size: 22px;
+            margin-top: 15px;
+            font-weight: bold;
+            color: #388e3c;
+        }
     </style>
 </head>
 <body>
@@ -49,9 +96,27 @@
         <div class="timer-circle" id="timer">5</div>
     </div>
 
+    <!-- Onnenpyörä -->
+    <div class="wheel-container" id="wheel-container">
+        <p>Pyöräytä onnenpyörää saadaksesi palkinnon! 🎡</p>
+        <div class="wheel" id="wheel">🎰</div>
+        <p id="prize"></p>
+        <p id="congrats"></p>
+    </div>
+
+    <!-- Linkki takaisin etusivulle -->
+    <a href="/" id="back-link">🔄 Takaisin alkuun</a>
+
     <script>
         let count = 5;
         let timerElement = document.getElementById('timer');
+        let backLink = document.getElementById('back-link');
+        let wheelContainer = document.getElementById('wheel-container');
+        let wheel = document.getElementById('wheel');
+        let prizeText = document.getElementById('prize');
+        let congratsText = document.getElementById('congrats');
+        
+        let prizes = ["🎉", "🎁", "💎", "🍀", "🔥", "🌟", "🎈", "🍫", "🎶", "🏆"];
         
         let countdown = setInterval(() => {
             count--;
@@ -61,9 +126,21 @@
                 clearInterval(countdown);
                 timerElement.textContent = "⏳✨";
                 timerElement.classList.add("done");
+                wheelContainer.style.display = "block"; // Näytetään onnenpyörä
             }
         }, 1000);
+
+        wheel.addEventListener("click", () => {
+            wheel.classList.add("spinning");
+            setTimeout(() => {
+                wheel.classList.remove("spinning");
+                let prize = prizes[Math.floor(Math.random() * prizes.length)];
+                wheel.textContent = prize;
+                prizeText.textContent = "Voitit: " + prize;
+                congratsText.textContent = "Onneksi olkoon, {{ nimi }}! 🎊";
+                backLink.style.display = "inline-block"; // Näytetään takaisin-linkki
+            }, 2000);
+        });
     </script>
 </body>
 </html>
-
