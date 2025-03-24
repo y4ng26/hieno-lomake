@@ -1,12 +1,16 @@
-<html>
+<!DOCTYPE html>
+<html lang="fi">
 <head>
-	<link rel=stylesheet href="{{url_for('static',filename='tyylit.css')}}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anna nimesi</title>
 </head>
 <body>
-	<h1>Tähän nimi kiitos!</h1>
-	<form method=GET action=vastaus>
-		<input type=text name="nimi">
-		<input type=submit value="Paina minua">
-	</form>
+    <h2>Syötä nimesi</h2>
+    <form action="/vastaus" method="get">
+        <input type="text" name="nimi" required>
+        <button type="submit">Lähetä</button>
+    </form>
 </body>
 </html>
+

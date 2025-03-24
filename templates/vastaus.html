@@ -1,3 +1,63 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vastaus</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #fce4ec;
+        }
+        .timer-container {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            margin: 20px auto;
+        }
+        .timer-circle {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background-color: pink;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+            position: absolute;
+            animation: bounce 1s infinite alternate;
+        }
+        @keyframes bounce {
+            from { transform: translateY(0); }
+            to { transform: translateY(-10px); }
+        }
+    </style>
+</head>
+<body>
+    <h2>Hei, {{ nimi }}!</h2>
 
-Kirjoitit nimeksesi: {{nimi}}
+    <div class="timer-container">
+        <div class="timer-circle" id="timer">5</div>
+    </div>
+
+    <script>
+        let count = 5;
+        let timerElement = document.getElementById('timer');
+        
+        let countdown = setInterval(() => {
+            count--;
+            timerElement.textContent = count;
+            
+            if (count <= 0) {
+                clearInterval(countdown);
+                timerElement.textContent = "💖";
+            }
+        }, 1000);
+    </script>
+</body>
+</html>
+
+
 
