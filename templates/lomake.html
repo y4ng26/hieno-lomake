@@ -1,16 +1,70 @@
 <!DOCTYPE html>
-<html lang="fi">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Anna nimesi</title>
+    <title> Nimigeneraattori</title>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background-color: #f0f9eb;
+            text-align: center;
+            padding: 50px;
+            color: #7ac143;
+        }
+        .container {
+            background-color: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(122, 193, 67, 0.2);
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        h1 {
+            color: #7ac143;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        input[type="text"] {
+            padding: 10px;
+            border: 2px solid #a8e6cf;
+            border-radius: 10px;
+            font-size: 16px;
+            width: 70%;
+            margin: 10px 0;
+        }
+        button {
+            background-color: #a8e6cf;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 15px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+        button:hover {
+            background-color: #7ac143;
+            transform: scale(1.05);
+        }
+        .kisu {
+            font-size: 30px;
+            margin-top: 20px;
+            color: #7ac143;
+        }
+    </style>
 </head>
 <body>
-    <h2>Syötä nimesi</h2>
-    <form action="/vastaus" method="get">
-        <input type="text" name="nimi" required>
-        <button type="submit">Lähetä</button>
-    </form>
+    <div class="container">
+        <h1>🌿 Nimigeneraattori 🌿</h1>
+        <p>Kirjoita nimesi ja saat tuplaversion!</p>
+        
+        <form action="/vastaus" method="GET">
+            <input type="text" name="nimi" placeholder="Kirjoita nimesi tähän..." required>
+            <br>
+            <button type="submit">Luo nimi!</button>
+        </form>
+        
+        <div class="kisu">(≧◡≦) ♡</div>
+    </div>
 </body>
 </html>
 
