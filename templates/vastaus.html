@@ -29,9 +29,41 @@
             color: #2e7d32;
             position: absolute;
             animation: rotate 5s linear infinite;
-            box-shadow: 0 4px 10px rgba(0, 0, 0,
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s;
+        }
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .timer-circle.done {
+            background-color: #66bb6a; /* Muuttuu kirkkaammaksi lopussa */
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <h2>Hei, {{ nimi }}!</h2>
 
+    <div class="timer-container">
+        <div class="timer-circle" id="timer">5</div>
+    </div>
 
-
-
+    <script>
+        let count = 5;
+        let timerElement = document.getElementById('timer');
+        
+        let countdown = setInterval(() => {
+            count--;
+            timerElement.textContent = count;
+            
+            if (count <= 0) {
+                clearInterval(countdown);
+                timerElement.textContent = "⏳✨";
+                timerElement.classList.add("done");
+            }
+        }, 1000);
+    </script>
+</body>
+</html>
 
