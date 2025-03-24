@@ -6,140 +6,238 @@
     <title>Vastaus</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             text-align: center;
-            background-color: #e8f5e9; /* Vaalea vihreä tausta */
-        }
-        .timer-container {
+            background-color: #f5f9f2;
+            color: #4a6b3b;
+            padding: 20px;
+            overflow-x: hidden;
             position: relative;
-            width: 120px;
-            height: 120px;
-            margin: 20px auto;
         }
-        .timer-circle {
-            width: 120px;
-            height: 120px;
+        
+        h2 {
+            color: #5a8f3d;
+            margin-bottom: 30px;
+        }
+        
+        /* Onnenpyörän säännöt */
+        .wheel-container {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            margin: 40px auto;
+            z-index: 10;
+        }
+        
+        .wheel {
+            width: 100%;
+            height: 100%;
             border-radius: 50%;
-            background-color: #a5d6a7; /* Pastellinvihreä */
+            background: conic-gradient(
+                #e8f5e9 0% 16.6%,
+                #c8e6c9 16.6% 33.3%,
+                #a5d6a7 33.3% 50%,
+                #81c784 50% 66.6%,
+                #66bb6a 66.6% 83.3%,
+                #4caf50 83.3% 100%
+            );
+            position: relative;
+            box-shadow: 0 0 20px rgba(122, 193, 67, 0.3);
+            transition: transform 5s cubic-bezier(0.17, 0.67, 0.12, 0.99);
+            transform: rotate(0deg);
+            cursor: pointer;
+        }
+        
+        .wheel::after {
+            content: '';
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background-color: #ff5722;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            clip-path: polygon(50% 100%, 0 0, 100% 0);
+            z-index: 10;
+        }
+        
+        .wheel-section {
+            position: absolute;
+            width: 50%;
+            height: 50%;
+            transform-origin: bottom right;
             display: flex;
             align-items: center;
             justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+        
+        .result-container {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #e8f5e9;
+            border-radius: 10px;
+            display: inline-block;
+            max-width: 80%;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .result {
             font-size: 28px;
             font-weight: bold;
             color: #2e7d32;
-            position: absolute;
-            animation: rotate 5s linear infinite;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            transition: background-color 0.3s;
+            margin: 10px 0;
         }
-        @keyframes rotate {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        .timer-circle.done {
-            background-color: #66bb6a; /* Muuttuu kirkkaammaksi lopussa */
-            color: white;
-        }
-        #back-link {
-            display: none;
-            margin-top: 20px;
-            font-size: 18px;
-            text-decoration: none;
-            color: white;
-            background-color: #388e3c;
-            padding: 10px 15px;
-            border-radius: 8px;
-            transition: background 0.3s;
-        }
-        #back-link:hover {
-            background-color: #2e7d32;
-        }
-        /* Onnenpyörän tyylit */
-        .wheel-container {
-            display: none;
-            margin-top: 20px;
-        }
-        .wheel {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            background-color: #ffeb3b;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 30px;
-            font-weight: bold;
-            color: #ff9800;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            cursor: pointer;
-            transition: transform 1s ease-in-out;
-        }
-        .wheel.spinning {
-            transform: rotate(720deg);
-        }
-        #prize {
-            font-size: 24px;
-            margin-top: 10px;
-        }
-        #congrats {
-            font-size: 22px;
+        
+        .congrats {
+            font-size: 20px;
+            color: #5a8f3d;
             margin-top: 15px;
-            font-weight: bold;
-            color: #388e3c;
+        }
+        
+        #back-link {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 12px 25px;
+            background-color: #7ac143;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 500;
+            transition: background-color 0.3s;
+            position: relative;
+            z-index: 10;
+        }
+        
+        #back-link:hover {
+            background-color: #5a8f3d;
+        }
+        
+        .spinning-text {
+            margin-top: 20px;
+            font-style: italic;
+            color: #78909c;
+            position: relative;
+            z-index: 10;
+        }
+        
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 5;
         }
     </style>
 </head>
 <body>
     <h2>Hei, {{ nimi }}!</h2>
-
-    <div class="timer-container">
-        <div class="timer-circle" id="timer">5</div>
+    
+    <div class="wheel-container">
+        <div class="wheel" id="wheel">
+            <div class="wheel-section" style="transform: rotate(30deg)">🎁</div>
+            <div class="wheel-section" style="transform: rotate(90deg)">🍀</div>
+            <div class="wheel-section" style="transform: rotate(150deg)">💎</div>
+            <div class="wheel-section" style="transform: rotate(210deg)">🎉</div>
+            <div class="wheel-section" style="transform: rotate(270deg)">🌟</div>
+            <div class="wheel-section" style="transform: rotate(330deg)">🏆</div>
+        </div>
     </div>
-
-    <!-- Onnenpyörä -->
-    <div class="wheel-container" id="wheel-container">
-        <p>Pyöräytä onnenpyörää saadaksesi palkinnon! 🎡</p>
-        <div class="wheel" id="wheel">🎰</div>
-        <p id="prize"></p>
-        <p id="congrats"></p>
+    
+    <p class="spinning-text">Klikkaa onnenpyörää pyöräyttääksesi sitä!</p>
+    
+    <div class="result-container" id="result" style="display: none;">
+        <div class="result" id="prize-result"></div>
+        <div class="congrats" id="congrats-message"></div>
     </div>
-
-    <!-- Linkki takaisin etusivulle -->
+    
     <a href="/" id="back-link">🔄 Takaisin alkuun</a>
-
+    
+    <!-- Lisätty canvas serpenttiinejä varten -->
+    <canvas id="confetti-canvas"></canvas>
+    
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
     <script>
-        let count = 5;
-        let timerElement = document.getElementById('timer');
-        let backLink = document.getElementById('back-link');
-        let wheelContainer = document.getElementById('wheel-container');
-        let wheel = document.getElementById('wheel');
-        let prizeText = document.getElementById('prize');
-        let congratsText = document.getElementById('congrats');
+        const wheel = document.getElementById('wheel');
+        const resultContainer = document.getElementById('result');
+        const prizeResult = document.getElementById('prize-result');
+        const congratsMessage = document.getElementById('congrats-message');
         
-        let prizes = ["🎉", "🎁", "💎", "🍀", "🔥", "🌟", "🎈", "🍫", "🎶", "🏆"];
+        const prizes = [
+            { emoji: "🎁", name: "Palkinto 1", message: "Voitit pienen yllätyksen!" },
+            { emoji: "🍀", name: "Onnenpalkinto", message: "OMGGG! Löysit neliapilan!" },
+            { emoji: "💎", name: "Jättipotti", message: "HELL YEAHH! Voitit timantin!" },
+            { emoji: "🎉", name: "Juhlapalkinto", message: "Hienoa! Syytä juhlia!" },
+            { emoji: "🌟", name: "Tähtipalkinto", message: "WOAHH! Olet tähti!" },
+            { emoji: "🏆", name: "Pääpalkinto", message: "BAZINGA! Voitit kultamitalin!" }
+        ];
         
-        let countdown = setInterval(() => {
-            count--;
-            timerElement.textContent = count;
+        let canSpin = true;
+        
+        function fireConfetti() {
+            // Vihreä teema serpenttiineihin
+            const colors = ['#a5d6a7', '#81c784', '#66bb6a', '#4caf50', '#7ac143'];
             
-            if (count <= 0) {
-                clearInterval(countdown);
-                timerElement.textContent = "⏳✨";
-                timerElement.classList.add("done");
-                wheelContainer.style.display = "block"; // Näytetään onnenpyörä
+            confetti({
+                particleCount: 150,
+                angle: 60,
+                spread: 55,
+                origin: { x: 0 },
+                colors: colors
+            });
+            
+            confetti({
+                particleCount: 150,
+                angle: 120,
+                spread: 55,
+                origin: { x: 1 },
+                colors: colors
+            });
+            
+            // Lisää satunnaisia serpenttiinejä koko ruudulle
+            for (let i = 0; i < 5; i++) {
+                setTimeout(() => {
+                    confetti({
+                        particleCount: 50,
+                        spread: 100,
+                        origin: { y: 0.6 },
+                        colors: colors,
+                        scalar: 1.2
+                    });
+                }, i * 300);
             }
-        }, 1000);
-
-        wheel.addEventListener("click", () => {
-            wheel.classList.add("spinning");
+        }
+        
+        wheel.addEventListener('click', () => {
+            if (!canSpin) return;
+            
+            canSpin = false;
+            resultContainer.style.display = 'none';
+            
+            // Satunnainen pyöräytys (5-10 kierrosta + satunnainen loppukulma)
+            const spinDegrees = 1800 + Math.floor(Math.random() * 1800);
+            const finalRotation = spinDegrees % 360;
+            const prizeIndex = Math.floor((360 - finalRotation) / 60) % 6;
+            
+            wheel.style.transform = `rotate(${spinDegrees}deg)`;
+            
             setTimeout(() => {
-                wheel.classList.remove("spinning");
-                let prize = prizes[Math.floor(Math.random() * prizes.length)];
-                wheel.textContent = prize;
-                prizeText.textContent = "Voitit: " + prize;
-                congratsText.textContent = "Onneksi olkoon, {{ nimi }}! 🎊";
-                backLink.style.display = "inline-block"; // Näytetään takaisin-linkki
-            }, 2000);
+                const prize = prizes[prizeIndex];
+                prizeResult.innerHTML = `${prize.emoji} ${prize.name}`;
+                congratsMessage.textContent = `${prize.message} ${prize.emoji}`;
+                resultContainer.style.display = 'inline-block';
+                
+                // Laukaistaan serpenttiinit voiton yhteydessä
+                fireConfetti();
+                
+                canSpin = true;
+            }, 5000);
         });
     </script>
 </body>
