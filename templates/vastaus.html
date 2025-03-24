@@ -8,56 +8,30 @@
         body {
             font-family: Arial, sans-serif;
             text-align: center;
-            background-color: #fce4ec;
+            background-color: #e8f5e9; /* Vaalea vihreä tausta */
         }
         .timer-container {
             position: relative;
-            width: 100px;
-            height: 100px;
+            width: 120px;
+            height: 120px;
             margin: 20px auto;
         }
         .timer-circle {
-            width: 100px;
-            height: 100px;
+            width: 120px;
+            height: 120px;
             border-radius: 50%;
-            background-color: pink;
+            background-color: #a5d6a7; /* Pastellinvihreä */
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
+            font-size: 28px;
             font-weight: bold;
+            color: #2e7d32;
             position: absolute;
-            animation: bounce 1s infinite alternate;
-        }
-        @keyframes bounce {
-            from { transform: translateY(0); }
-            to { transform: translateY(-10px); }
-        }
-    </style>
-</head>
-<body>
-    <h2>Hei, {{ nimi }}!</h2>
+            animation: rotate 5s linear infinite;
+            box-shadow: 0 4px 10px rgba(0, 0, 0,
 
-    <div class="timer-container">
-        <div class="timer-circle" id="timer">5</div>
-    </div>
 
-    <script>
-        let count = 5;
-        let timerElement = document.getElementById('timer');
-        
-        let countdown = setInterval(() => {
-            count--;
-            timerElement.textContent = count;
-            
-            if (count <= 0) {
-                clearInterval(countdown);
-                timerElement.textContent = "💖";
-            }
-        }, 1000);
-    </script>
-</body>
-</html>
 
 
 
