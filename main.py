@@ -10,6 +10,7 @@ def root():
 def vastaus():
     uusi_nimi = request.args['nimi']
     tuplanimi = uusi_nimi*2
+    
     #with open ("kaikki_nimet.txt","a+") as nimitiedosto:
     #    nimitiedosto.write(uusi_nimi +"\n")
     #kaikki_nimet = nimitiedosto.read()
@@ -17,4 +18,4 @@ def vastaus():
     return render_template('vastaus.html', nimi=tuplanimi)
 
 if __name__=='__main__':
-    app.run()
+    app.run(debug=True)  # 添加debug=True方便开发
