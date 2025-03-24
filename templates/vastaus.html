@@ -48,8 +48,7 @@
             cursor: pointer;
         }
         
-        .wheel::after {
-            content: '';
+        .wheel-pointer {
             position: absolute;
             width: 30px;
             height: 30px;
@@ -58,7 +57,7 @@
             left: 50%;
             transform: translateX(-50%);
             clip-path: polygon(50% 100%, 0 0, 100% 0);
-            z-index: 10;
+            z-index: 20;
         }
         
         .wheel-section {
@@ -140,6 +139,7 @@
     <h2>Hei, {{ nimi }}!</h2>
     
     <div class="wheel-container">
+        <div class="wheel-pointer"></div>
         <div class="wheel" id="wheel">
             <div class="wheel-section" style="transform: rotate(30deg)">🎁</div>
             <div class="wheel-section" style="transform: rotate(90deg)">🍀</div>
@@ -171,11 +171,11 @@
         
         const prizes = [
             { emoji: "🎁", name: "Palkinto 1", message: "Voitit pienen yllätyksen!" },
-            { emoji: "🍀", name: "Onnenpalkinto", message: "OMGGG! Löysit neliapilan!" },
-            { emoji: "💎", name: "Jättipotti", message: "HELL YEAHH! Voitit timantin!" },
-            { emoji: "🎉", name: "Juhlapalkinto", message: "Hienoa! Syytä juhlia!" },
-            { emoji: "🌟", name: "Tähtipalkinto", message: "WOAHH! Olet tähti!" },
-            { emoji: "🏆", name: "Pääpalkinto", message: "BAZINGA! Voitit kultamitalin!" }
+            { emoji: "🍀", name: "Onnenpalkinto", message: "OMG! Löysit neliapilan!" },
+            { emoji: "💎", name: "Jättipotti", message: "HELL YEAHHHHH! Voitit timantin!" },
+            { emoji: "🎉", name: "Juhlapalkinto", message: "PARTY PARTY YEAHH!" },
+            { emoji: "🌟", name: "Tähtipalkinto", message: "WOAH! Olet tähti!" },
+            { emoji: "🏆", name: "Pääpalkinto", message: "Mahtavaa! Voitit kultamitalin!" }
         ];
         
         let canSpin = true;
